@@ -21,3 +21,13 @@ No public deployment has occurred. Demo GIFs must be replaced with the owner's a
 - Follow-up independent review reported no Critical or Important findings. Metadata refresh regression was reproduced and fixed with a test.
 - GitHub read and push dry-run to `work` succeeded. GitHub Pages API access is currently blocked by the runtime outbound network policy; `api.github.com` and `yunafunnews.github.io` have been saved as requested custom domain additions in the environment configuration draft. Remote Pages activation/publication is not claimed until checked.
 - Site name is cc&hp. No CNAME or custom DNS record is supplied because no valid owned hostname was provided.
+
+## cc&hp Admin increment
+
+- Retained the custom React/Express/SQLite stack. Added protected overview, paginated GIF management/metadata editing, member lookup/detail and read-only points ledger; no additional dependencies.
+- `npm test`: **21 passed**. Includes guest/member denial on every admin read route, explicit safe member output, literal wildcard searches, malformed paging, metadata-only edits without point awards, and existing approval/invitation reward behavior.
+- Full-app Chromium suite: **9 passed**. New admin workflow uses real registration, explicit CLI role promotion, approval, editing, member detail, points search and mobile layout. Covers guest exclusion and correcting pagination after reviewing the final item on the last page.
+- Pages Chromium suite: **3 passed**. Both production builds passed.
+- Independent review found a data-tab result-shape race; fixed by associating results with the originating request key and ignoring stale responses. The failing admin workflow passed after the fix. Last-page review pagination was reproduced, corrected and covered by a failing-then-passing browser regression.
+- `/admin` route, overview screenshot, all data-tab transitions and narrow viewport were exercised against a real temporary application/database with zero browser errors. Screenshot: `docs/screenshots/admin.png` (local demo accounts only).
+- Admin backend remains undeployed pending a hosting choice with Node.js 24 and persistent storage. GitHub Pages remains a read-only public gallery. No admin account, credential or backend hosting is invented.

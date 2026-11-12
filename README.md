@@ -39,7 +39,18 @@ npm run admin -- you@example.com
 DATA_DIR=/absolute/path/to/data npm run admin -- you@example.com
 ```
 
-Reload the website or sign back in. **Moderation** appears in the sidebar. Approve or reject pending uploads. Member reports enter the same queue; reporting alone does not hide published GIFs. Review resolves outstanding reports. No default admin password is shipped.
+Reload the website or sign back in. **Admin console** appears in the sidebar. The full Node application also accepts `/admin` or `/#admin`; older `/#moderation` links open the GIF review tab. No default admin password is shipped.
+
+The current administration center includes:
+
+- **Overview:** real member/content/review/report/download counters and issued-points breakdown.
+- **GIF management:** search by title/tags/creator, filter status, paginate, approve/reject, and edit titles/categories/tags. Metadata edits do not award points. Reports enter the review queue without automatically hiding published content; review resolves outstanding reports.
+- **Members:** search by name/email, view level and points, approved upload/invitation counts and recent point activity. Credential/session material is never returned.
+- **Points ledger:** searchable, paginated, read-only award history. Balances cannot be silently rewritten.
+
+The server authorizes every administrative request against the current account role. New admin labels are available in English and simplified/traditional Chinese; other locales use English fallback for these new labels. Account bans/deletion, role delegation, manual point adjustments and visual task/rule configuration are outside this increment.
+
+This is a custom React interface and Express API using the existing SQLite database, with no additional admin framework or CMS dependency. It works in local/full Node deployments. GitHub Pages is still the static public gallery and cannot run this administration service. A server/cloud platform with Node.js 24 and persistent storage must be chosen before making the backend available publicly.
 
 ## Points rules
 

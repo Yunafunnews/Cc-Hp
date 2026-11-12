@@ -1,4 +1,5 @@
 import express from "express";
+import { registerAdminRoutes } from "./admin-api.js";
 import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
 import multer from "multer";
@@ -512,16 +513,7 @@ export function createApp({
         .map((r) => gifData(r.id, req.userId)),
     });
   });
-  app.get("/api/admin/gifs", auth, admin, (req, res) =>
-    res.json({
-      gifs: db
-        .prepare(
-          "SELECT id FROM gifs WHERE status IN ('pending','flagged') OR EXISTS(SELECT 1 FROM reports WHERE gif_id=gifs.id AND resolved=0) ORDER BY id ASC",
-        )
-        .all()
-        .map((r) => gifData(r.id, req.userId)),
-    }),
-  );
+  registerAdminRoutes(app, { db, auth, admin, gifData });
   app.post("/api/admin/gifs/:id/review", auth, admin, (req, res) => {
     const status = req.body.status;
     if (!["approved", "rejected"].includes(status))

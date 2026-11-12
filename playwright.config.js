@@ -1,7 +1,9 @@
 import { defineConfig } from "@playwright/test";
 import { existsSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
-const dataDir = mkdtempSync(`${tmpdir()}/pawloop-browser-`);
+const dataDir = (process.env.CC_HP_BROWSER_DATA_DIR ||= mkdtempSync(
+  `${tmpdir()}/pawloop-browser-`,
+));
 export default defineConfig({
   testDir: "tests",
   testMatch: "browser.spec.js",

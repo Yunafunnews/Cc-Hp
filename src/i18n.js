@@ -1,3 +1,4 @@
+import { adminTranslations } from "./locales/admin.js";
 import { createContext, useContext } from "react";
 export const LocaleContext = createContext(null);
 import { priorityLocales } from "./locales/priority.js";
@@ -384,6 +385,9 @@ export const localeDirection = (locale) =>
   ["ar", "he", "fa", "ur"].includes(locale) ? "rtl" : "ltr";
 export function translator(locale) {
   const dictionary = dictionaries[normalizeLocale(locale)];
-  return (phrase) => dictionary[phrase] || phrase;
+  return (phrase) =>
+    adminTranslations[normalizeLocale(locale)]?.[phrase] ||
+    dictionary[phrase] ||
+    phrase;
 }
 export const useLocale = () => useContext(LocaleContext);

@@ -39,11 +39,12 @@ import {
   localeDirection,
 } from "./i18n";
 import Gallery from "./components/Gallery";
+import AdminConsole from "./components/AdminConsole";
 import Modal from "./components/Modal";
 import Auth from "./components/Auth";
 import Upload, { cats } from "./components/Upload";
 import GifDetail from "./components/GifDetail";
-import Dashboard, { Moderation, RankCard } from "./components/Dashboard";
+import Dashboard, { RankCard } from "./components/Dashboard";
 
 const categoryIcons = {
   cats: Cat,
@@ -54,7 +55,9 @@ const categoryIcons = {
   playtime: Dribbble,
 };
 const routeFromHash = () => {
-  const v = location.hash.slice(1);
+  const v =
+    location.hash.slice(1) ||
+    (location.pathname.replace(/\/+$/, "").endsWith("/admin") ? "admin" : "");
   return [
     "explore",
     "trending",
@@ -66,6 +69,7 @@ const routeFromHash = () => {
     "uploads",
     "settings",
     "moderation",
+    "admin",
   ].includes(v)
     ? v
     : "explore";
@@ -323,7 +327,7 @@ export default function App() {
                 {navButton("invites", "Invite friends", UserPlus, true)}
                 {navButton("uploads", "My uploads", Images, true)}
                 {user?.role === "admin" &&
-                  navButton("moderation", "Moderation", ShieldCheck, true)}
+                  navButton("admin", "Admin console", ShieldCheck, true)}
               </nav>
               <div className="sidebar-garden">
                 <div className="garden-art">
@@ -799,9 +803,13 @@ export default function App() {
                 </button>
               </div>
             )}
-            {page === "moderation" &&
+            {["admin", "moderation"].includes(page) &&
               (user?.role === "admin" ? (
-                <Moderation notify={notify} />
+                <AdminConsole
+                  user={user}
+                  notify={notify}
+                  initialTab={page === "moderation" ? "gifs" : "overview"}
+                />
               ) : (
                 <GuestPage t={t} onJoin={askAuth} />
               ))}
