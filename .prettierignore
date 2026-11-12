@@ -1,0 +1,9 @@
+node_modules
+dist
+data
+public/gifs
+public/fonts
+test-results
+playwright-report
+.superpowers
+package-lock.json
